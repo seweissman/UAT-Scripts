@@ -12,7 +12,7 @@ var ism = "interstellar_medium.json"
 var obsast = "observational_astronomy.json"
 var solar = "solar_astronomy.json"
 var solarsystem = "solar_system_astronomy.json"
-var stellar = "stellar_astronomy.json"
+var stellar = "stellar_astronomy-new.json"
 
 function renderTree(j){
 treeJSON = d3.json(j, function(error, treeData) {
@@ -422,10 +422,11 @@ treeJSON = d3.json(j, function(error, treeData) {
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
             })
-            .text(function(d) {
-                return d.name;
-            })
+            //.text(function(d) {
+            //    return d.name;
+            //})
             .style("fill-opacity", 0);
+            //.call(wrap,30);
 
         // phantom node to give us mouseover in a radius around it
         nodeEnter.append("circle")
@@ -449,9 +450,13 @@ treeJSON = d3.json(j, function(error, treeData) {
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
             })
-            .text(function(d) {
-                return d.name;
-            });
+            .attr("label", function(d){
+                        return d.name;
+            })
+            .call(wrap,200);
+            //.text(function(d) {
+            //    return d.name;
+            //});
 
         // Change the circle fill depending on whether it has children and is collapsed
         node.select("circle.nodeCircle")
@@ -583,6 +588,40 @@ function appendNode(selectedNode, appNode){
     expand(selectedNode);
     //collapse(selectedNode.children);
     sortTree();
+}
+
+function wrap(text, width) {
+    text.each(function () {
+        var text = d3.select(this),
+            label = text.attr("label"),
+            words = label.split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            x = text.attr("x"),
+            y = text.attr("y"),
+            dy = 0, //parseFloat(text.attr("dy")),
+            tspan = text.text(null)
+                        .append("tspan")
+                        .attr("x", x)
+                        .attr("y", y)
+                        .attr("dy", dy + "em");
+        while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan")
+                            .attr("x", x)
+                            .attr("y", y)
+                            .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                            .text(word);
+            }
+        }
+    });
 }
 
 addNode = function(nodeName,errorElement){

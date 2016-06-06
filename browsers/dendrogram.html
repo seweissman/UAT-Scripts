@@ -32,7 +32,8 @@ path.link {
     <div id="body">
       <div id="header">
        Unified Astronomy Thesaurus
-        <div class="hint">click a node to expand or collapse<br/>click & drag to move the dendrogram on the screen<br /><a href="http://astrothesaurus.org/dendrogram/">back to the UAT website</a></div>
+        <div class="hint">click a node to expand or collapse<br/>click & drag to move the dendrogram on the screen<br />
+        </div>
       </div>
       <div id="footer">
         <div class="hint"></div>
@@ -73,7 +74,7 @@ var vis = d3.select("#body").append("svg:svg")
 
 
 
-d3.json("uat.json", function(json) {
+d3.json("uat-new.json", function(json) {
   root = json;
   root.x0 = h / 2;
   root.y0 = 0;
