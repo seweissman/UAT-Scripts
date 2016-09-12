@@ -12,7 +12,7 @@ var ism = "interstellar_medium.json"
 var obsast = "observational_astronomy.json"
 var solar = "solar_astronomy.json"
 var solarsystem = "solar_system_astronomy.json"
-var stellar = "stellar_astronomy-new.json"
+var stellar = "stellar_astronomy.json"
 
 function renderTree(j){
 treeJSON = d3.json(j, function(error, treeData) {
